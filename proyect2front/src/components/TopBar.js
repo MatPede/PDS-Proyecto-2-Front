@@ -16,12 +16,8 @@ const TopBar = () => {
 
   return (
     <div className="top-bar">
-      <div className="logo">HourManagement</div>
+      <div className="logo">StaticApp</div>
       <nav className="navigation">
-        <a href="/">Clientes</a>
-        <a href="/profile">
-            <span>Perfil</span>
-        </a>
         <a href="#!" onClick={handleLogout}>Cerrar Sesión</a> 
       </nav>
     </div>

@@ -1,0 +1,41 @@
+.homepage-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Ajusta la distancia entre los cuadros */
+    margin-top: 20px;
+}
+  
+.card {
+    width: 200px;
+    height: 150px;
+    background-color: #007bff; /* Color azul */
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+  
+.card:hover {
+    transform: translateY(-5px);
+}
+  
+.card-upcoming {
+    background-color: #ff4081; /* Color rosado */
+    cursor: not-allowed;
+}
+  
+.card-content h2 {
+    margin: 0;
+    font-size: 18px;
+}
+  
+.card-content p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+}
+  
