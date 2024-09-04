@@ -17,7 +17,7 @@ const AppRoutes = () => {
   return (
     <>
       {isLogged && <TopBar />}
-      <div style={{ paddingTop: isLogged ? '60px' : '0px' }}> 
+      <div style={{ paddingTop: isLogged ? '47px' : '0px' }}> 
         <Routes>
           <Route
             path="/login"
