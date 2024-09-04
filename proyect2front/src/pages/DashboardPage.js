@@ -4,7 +4,6 @@ import './DashboardPage.css';
 
 const DashboardPage = () => {
   return (
-
     <div className="dashboard-page">
       <div className="dashboard-page-container">
         <h1>Rozamiento y Poleas</h1>
@@ -17,7 +16,7 @@ const DashboardPage = () => {
             Test de Desarrollo
           </Link>
         </div>
-     </div>
+      </div>
     </div>
   );
 };
