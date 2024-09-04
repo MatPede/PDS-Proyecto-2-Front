@@ -15,6 +15,11 @@
 .logo {
     font-size: 1.5em;
     font-weight: bold;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.logo:hover {
+    color: #ddd; /* Cambia el color del texto al pasar el mouse */
 }
 
 .navigation a {
