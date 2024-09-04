@@ -7,8 +7,6 @@ import StudentPage from './pages/StudentPage';
 import TopBar from './components/TopBar';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import DashboardPage from './pages/DashboardPage';
-import AlternativasPage from './pages/Tasks/AlternativasPage'
-import CalculoPage from './pages/Tasks/CalculoPage'
 
 const AppRoutes = () => {
   const { isLogged } = useAuth();
@@ -29,18 +27,6 @@ const AppRoutes = () => {
           <Route
             path="/dashboard"
             element={isLogged ? <DashboardPage /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/dashboard"
-            element={isLogged ? <DashboardPage /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/alternativas"
-            element={isLogged ? <AlternativasPage /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/calculo"
-            element={isLogged ? <CalculoPage /> : <Navigate to="/login" />}
           />
           <Route
             path="/student"
