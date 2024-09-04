@@ -62,7 +62,8 @@ const AlternativasPage = () => {
     const [score, setScore] = useState(0);
     const [time, setTime] = useState(0);
     const [lastQuestionTime, setLastQuestionTime] = useState(0);
-    const [incorrectQuestions, setIncorrectQuestions] = useState([]);
+    const [incorrectQuestionsFirstRound, setIncorrectQuestionsFirstRound] = useState([]);
+    const [incorrectQuestionsSecondRound, setIncorrectQuestionsSecondRound] = useState([]);
     const [incorrectFeedback, setIncorrectFeedback] = useState([]);
     const [secondChance, setSecondChance] = useState(false);
     const [showRoundSummary, setShowRoundSummary] = useState(false);
@@ -98,7 +99,13 @@ const AlternativasPage = () => {
             } else {
                 const incorrectOption = currentQuestion.options.find(option => !option.isCorrect && selectedOptions.includes(option));
                 setFeedback("Incorrecto. " + incorrectOption.explanation);
-                setIncorrectQuestions(prev => [...prev, currentQuestion]);
+
+                if (!secondChance) {
+                    setIncorrectQuestionsFirstRound(prev => [...prev, currentQuestion]);
+                } else {
+                    setIncorrectQuestionsSecondRound(prev => [...prev, currentQuestion]);
+                }
+
                 setIncorrectFeedback(prev => [...prev, incorrectOption.explanation]);
             }
 
@@ -108,15 +115,14 @@ const AlternativasPage = () => {
             if (currentQuestionIndex < questions.length - 1) {
                 setCurrentQuestionIndex(currentQuestionIndex + 1);
             } else {
-                if (!secondChance && incorrectQuestions.length > 0) {
-                    setShowRoundSummary(true); // Mostrar resumen del primer round
+                if (!secondChance && incorrectQuestionsFirstRound.length > 0) {
+                    setShowRoundSummary(true);
                     setTimeout(() => {
                         setShowRoundSummary(false);
-                        setQuestions(incorrectQuestions);
+                        setQuestions(incorrectQuestionsFirstRound);
                         setCurrentQuestionIndex(0);
                         setSecondChance(true);
-                        setIncorrectQuestions([]);
-                    }, 3000); // Esperar 3 segundos antes de avanzar al segundo round
+                    }, 3000);
                 } else {
                     alert(`¡Quiz completado! Tu puntuación final es: ${score}`);
                     setTimeout(() => {
