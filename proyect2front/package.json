@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "better-react-mathjax": "^2.0.3",
     "konva": "^9.3.14",
+    "mathjax": "^3.2.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-konva": "^18.2.10",

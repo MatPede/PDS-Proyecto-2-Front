@@ -1,10 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";  
 import "./AlternativasPage.css";
-
 import MathComponent from '../../components/MathComponent';
-//cantidad de preguntas que vas a contestar, el tiempo total del test desde que lo empece, tiempo total desde que ingresaste a la materia
-
 
 const questionsData = [{
     id: 1,
@@ -58,95 +55,143 @@ const questionsData = [{
 ];
 
 const AlternativasPage = () => {
-  const [questions] = useState(shuffleArray(questionsData).slice(0, 5)); // Selecciona 3 a 5 preguntas aleatorias
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [userAnswer, setUserAnswer] = useState(null);
-  const [feedback, setFeedback] = useState("");
-
-  const navigate = useNavigate();  
-
-  const currentQuestion = questions[currentQuestionIndex];
-
-  const handleAnswerClick = (option) => {
-    setUserAnswer(option);
-  };
-
-  const handleSubmit = () => {
-    if (userAnswer) {
-      if (userAnswer.isCorrect) {
-        setScore(score + 1);
-        setFeedback("Correcto!");
-      } else {
-        setScore(score - 1);
-        setFeedback(userAnswer.explanation);
-      }
-    } else {
-      setFeedback("Por favor selecciona una alternativa.");
-    }
-  };
-
-  const handleNext = () => {
-    setFeedback("");
-    setUserAnswer(null);
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      // mostrar el puntaje final
-      alert(`¡Quiz completado! Tu puntuación final es: ${score}`);
-      // 3 segundos antes de redirigir
-      setTimeout(() => {
-        navigate('/dashboard'); // Redirigir a Dashboard
+    const [allQuestions] = useState(shuffleArray(questionsData)); // Estado para todas las preguntas originales
+    const [questions, setQuestions] = useState(selectRandomQuestions(allQuestions)); // Estado para las preguntas actuales
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [selectedOptions, setSelectedOptions] = useState([]); // Estado para opciones seleccionadas
+    const [feedback, setFeedback] = useState("");
+    const [score, setScore] = useState(0); // Añadido para manejar el puntaje
+    const [time, setTime] = useState(0); // Tiempo en segundos
+    const [incorrectQuestions, setIncorrectQuestions] = useState([]); // Estado para preguntas incorrectas
+    const [incorrectFeedback, setIncorrectFeedback] = useState([]); // Estado para feedback de preguntas incorrectas
+    const [secondChance, setSecondChance] = useState(false); // Estado para segunda oportunidad
+  
+    const navigate = useNavigate();  
+  
+    const currentQuestion = questions[currentQuestionIndex];
+  
+    useEffect(() => {
+      const timer = setInterval(() => {
+        setTime(prevTime => prevTime + 1);
       }, 1000);
+  
+      return () => clearInterval(timer);
+    }, []);
+  
+    const handleOptionClick = (option) => {
+        // Set the selected option, replacing any previously selected option
+        setSelectedOptions([option]);
+    };
+      
+    const handleNext = () => {
+        if (selectedOptions.length > 0) {
+            const correctAnswers = currentQuestion.options.filter(option => option.isCorrect);
+            const allCorrect = correctAnswers.every(option => selectedOptions.includes(option));
+            const anyIncorrect = selectedOptions.some(option => !option.isCorrect);
+
+            if (allCorrect && !anyIncorrect) {
+                setFeedback("¡Correcto!");
+                setScore(prevScore => prevScore + 1); // Incrementar el puntaje
+            } else {
+                const incorrectOption = currentQuestion.options.find(option => !option.isCorrect && selectedOptions.includes(option));
+                setFeedback("Incorrecto. " + incorrectOption.explanation);
+                setIncorrectQuestions(prev => [...prev, currentQuestion]); // Añadir pregunta incorrecta
+                setIncorrectFeedback(prev => [...prev, incorrectOption.explanation]); // Añadir feedback incorrecto
+            }
+
+            setSelectedOptions([]); // Clear selected options
+            setFeedback("");
+
+            if (currentQuestionIndex < questions.length - 1) {
+                setCurrentQuestionIndex(currentQuestionIndex + 1);
+            } else {
+                if (!secondChance && incorrectQuestions.length > 0) {
+                    setQuestions(incorrectQuestions);
+                    setCurrentQuestionIndex(0);
+                    setSecondChance(true);
+                    setIncorrectQuestions([]); // Reset incorrectQuestions
+                } else {
+                    alert(`¡Quiz completado! Tu puntuación final es: ${score}`);
+                    setTimeout(() => {
+                        navigate('/dashboard'); // Redirigir a Dashboard
+                    }, 1000);
+                }
+            }
+        } else {
+            setFeedback("Por favor selecciona al menos una alternativa.");
+        }
+    };
+
+    const handleSkip = () => {
+      navigate('/dashboard');  
+    };
+  
+    const formatTime = (time) => {
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
+  
+    function generateOptionLabels(numOptions) {
+        return Array.from({ length: numOptions }, (_, i) => String.fromCharCode(65 + i) + '.-');
     }
+  
+    const optionLabels = generateOptionLabels(currentQuestion.options.length);
+  
+    return (
+      <div className="alternativas-page">
+        <div className="question-container">
+          <h2>{`Pregunta ${currentQuestionIndex + 1} de ${questions.length}`}</h2>
+          <div className="timer">{formatTime(time)}</div>
+          <div className="question-text">{currentQuestion.text}</div>
+          <ul className="answer-options">
+            {currentQuestion.options.map((option, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => handleOptionClick(option)}
+                  className={`option-button ${selectedOptions.includes(option) ? 'selected' : ''}`}
+                  disabled={false} // Los botones siempre habilitados
+                >
+                  {optionLabels[index]} {option.text}
+                </button>
+              </li>
+            ))}
+          </ul>
+          {feedback && <div className="feedback">{feedback}</div>}
+          {secondChance && incorrectFeedback[currentQuestionIndex] && (
+            <div className="incorrect-feedback">
+              <strong>Retroalimentación: </strong> {incorrectFeedback[currentQuestionIndex]}
+            </div>
+          )}
+          <div className="buttons">
+            <button onClick={handleSkip} className="skip-button">Saltar tarea</button>
+            <button
+              onClick={handleNext}
+              disabled={selectedOptions.length !== 1}
+            >
+              Siguiente
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   };
   
-  const handleSkip = () => {
-    navigate('/dashboard');  
-  };
-
-  return (
-    <div className="question-container">
-      <h2>{`Pregunta ${currentQuestionIndex + 1}`}</h2>
-      <div className="question-text">{currentQuestion.text}</div>
-      {/* <div className="diagram">
-        <img src="diagram.png" alt="Diagram" />
-      </div> */}
-      <ul className="answer-options">
-        {currentQuestion.options.map((option, index) => (
-          <li key={index}>
-            <button
-              onClick={() => handleAnswerClick(option)}
-              className={userAnswer === option ? "selected" : ""}
-            >
-              {option.text}
-            </button>
-          </li>
-        ))}
-      </ul>
-      <div className="feedback">{feedback}</div>
-      <div className="buttons">
-        <button className="submit-button" onClick={handleSubmit}>
-          Aceptar
-        </button>
-        <button className="next-button" onClick={handleNext} disabled={!feedback}>
-          Siguiente
-        </button>
-        <button className="skip-button" onClick={handleSkip}>
-          Saltar tarea
-        </button>
-      </div>
-    </div>
-  );
-};
-
-// Función para mezclar el array de preguntas
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+const shuffleArray = (array) => {
+  let currentIndex = array.length, temporaryValue, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
   }
   return array;
-}
+};
+
+const selectRandomQuestions = (questions) => {
+  const numQuestions = Math.floor(Math.random() * 3) + 3; // Seleccionar entre 3 y 5 preguntas
+  return questions.slice(0, numQuestions);
+};
 
 export default AlternativasPage;

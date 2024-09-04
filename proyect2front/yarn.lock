@@ -6718,6 +6718,11 @@ mathjax-full@^3.2.2:
     mj-context-menu "^0.6.1"
     speech-rule-engine "^4.0.6"
 
+mathjax@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.npmjs.org/mathjax/-/mathjax-3.2.2.tgz"
+  integrity sha512-Bt+SSVU8eBG27zChVewOicYs7Xsdt40qm4+UpHyX7k0/O9NliPc+x77k1/FEsPsjKPZGJvtRZM1vO+geW0OhGw==
+
 mdn-data@2.0.14:
   version "2.0.14"
   resolved "https://registry.npmjs.org/mdn-data/-/mdn-data-2.0.14.tgz"
