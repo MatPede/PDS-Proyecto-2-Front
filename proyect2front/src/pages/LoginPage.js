@@ -1,26 +1,22 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import './LoginPage.css'; // Asegúrate de que este import esté presente
+import './LoginPage.css';
 
-// Credenciales predefinidas para el inicio de sesión
 const predefinedCredentials = [
-  { email: 'student@mail.com', password: '123456' },
-  { email: 'teacher@mail.com', password: '123456' },
-  // Agrega más combinaciones predefinidas según sea necesario
+  { email: 'student@mail.com', password: '123456', name: 'student1' },
+  { email: 'teacher@mail.com', password: '123456', name: 'teacher1' },
 ];
 
-// Función de inicio de sesión para validar credenciales
 export const login = (email, password) => {
   const foundUser = predefinedCredentials.find(
     (cred) => cred.email === email && cred.password === password
   );
 
-  // Retorna el estado de éxito y los datos del usuario
   if (foundUser) {
     return {
       success: true,
-      user: foundUser, // Ajusta para retornar el objeto completo del usuario
+      user: foundUser, 
     };
   } else {
     return {
@@ -48,7 +44,9 @@ const LoginPage = () => {
       if (!result.success) {
         throw new Error('Correo electrónico o contraseña inválidos');
       }
+      
       localStorage.setItem('user', JSON.stringify(result.user));
+
       setIsLogged(true);
       localStorage.setItem('isLogged', 'true');
       navigate('/HomePage');

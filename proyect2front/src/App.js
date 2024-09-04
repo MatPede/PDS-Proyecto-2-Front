@@ -12,8 +12,7 @@ import ForceDiagram from './pages/Tasks/ForceDiagram';
 
 const AppRoutes = () => {
   const { isLogged } = useAuth();
-
-  // Log de isLogged cada vez que se monta el componente o cambia la ruta
+  
   useEffect(() => {
     console.log("isLogged =", isLogged);
   }, [isLogged]);
