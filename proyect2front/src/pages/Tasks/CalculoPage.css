@@ -1,49 +1,58 @@
-.question-container {
-    border: 1px solid black;
-    padding: 20px;
-    width: 400px;
-    margin: auto;
-    position: relative;
+.quiz-container {
+  margin: 10%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto auto 1fr auto;
+  gap: 20px;
+  height: 60vh;
+}
+
+.question-title {
+  grid-column: 1 / -1;
+  font-size: 2em;
+  align-self: start;
+}
+
+.question-content {
+  grid-column: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.question-text, .question-more-text {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.question-diagram {
+  margin: 10px auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.answer-box {
+  grid-column: 1 / 2;
+  width: 80%;
+  padding: 10px;
+  font-size: 1.2em;
+  margin: 10px auto;
+}
+
+.exit-button {
+  grid-column: 2 / 3;
+  justify-self: end;
+  align-self: start;
+}
+
+.submit-button {
+  grid-column: 2 / 3;
+  justify-self: end;
+  align-self: end;
+}
+
+@media (max-width: 768px) {
+  .quiz-container {
+    margin: 10%;
   }
-  
-  h2 {
-    margin: 0;
-    font-size: 1.5em;
-    padding-bottom: 10px;
-  }
-  
-  .question-text {
-    margin-bottom: 10px;
-  }
-  
-  .diagram {
-    border: 1px solid black;
-    text-align: center;
-    margin-bottom: 10px;
-    padding: 10px;
-  }
-  
-  .additional-text {
-    margin-bottom: 10px;
-  }
-  
-  .answer-box {
-    margin-bottom: 20px;
-  }
-  
-  .answer-box input {
-    width: 100%;
-    padding: 5px;
-  }
-  
-  .buttons {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .exit-button,
-  .submit-button {
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  
+}
