@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CalculoPage.css';
+import ForceDiagram from './ForceDiagram';
+import { useNavigate } from 'react-router-dom';
 
 const CalculoPage = () => {
-  // State for the variables P and mu
-  const [P, setP] = useState(450);
-  const [mu, setMu] = useState(0.43);
+  const navigate = useNavigate();
+
+  const getRandomValue = (min, max) => Math.random() * (max - min) + min;
+
+  const [P, setP] = useState(Math.round(getRandomValue(20, 80)));
+  const [mu, setMu] = useState(getRandomValue(0.05, 1).toFixed(2));
   const [userAnswer, setUserAnswer] = useState('');
   const [isCorrect, setIsCorrect] = useState(null);
   const [tipCount, setTipCount] = useState(0);
   const [tips, setTips] = useState([]);
 
   // Calculate the correct answer
-  const correctAnswer = P * mu;
+  const correctAnswer = P * 10 * mu;
 
   // Define the margin of error
   const marginOfError = 1;
@@ -41,53 +46,72 @@ const CalculoPage = () => {
     }
   };
 
+  const handleSkip = () => {
+    navigate('/dashboard');  // Navigate to /dashboard
+  };
+
+  useEffect(() => {
+    if (isCorrect) {
+      const timer = setTimeout(() => {
+        navigate('/dashboard');
+      }, 5000);
+
+      return () => clearTimeout(timer);  // Cleanup timer if component unmounts or isCorrect changes
+    }
+  }, [isCorrect, navigate]);
+
   return (
     <div className="quiz-container">
       <div className="exit-button">
-        <button>Exit</button>
+        <button onClick={handleSkip}>Omitir</button>
       </div>
-      <h1 className="question-title">Question 1</h1>
+      <h1 className="question-title">Pregunta de calculo numerico</h1>
       <div className="question-content">
         <p className="question-text">
           Dado el siguiente diagrama, donde F es una fuerza aplicada sobre el objeto de masa M, 
-          P es el peso del objeto y mu el coeficiente de friccion entre el objeto y el suelo.
+          P es el peso del objeto y mu el coeficiente de fricción entre el objeto y el suelo.
         </p>
-        <img src="DiagramExample01.png" alt="Diagram Example" className="question-diagram" />
+        {/* Replace the static image with the dynamic diagram */}
+        <div className="question-diagram">
+          <ForceDiagram F={correctAnswer} P={P} mu={mu} />
+        </div>
         <p className="question-more-text">
-          Sabiendo que P = {P}N y mu = {mu} calcule la fuerza necesaria para vencer la friccion estatica.
+          Sabiendo que la Masa del objeto es de {P} Kg y mu = {mu} calcule la fuerza necesaria para vencer la fricción estática. (Considere g = 10)
         </p>
       </div>
       <input 
         type="number" 
         className="answer-box" 
-        placeholder="Enter your answer" 
+        placeholder="Ingresa tu respuesta" 
         value={userAnswer}
         onChange={(e) => setUserAnswer(e.target.value)}
       />
       <div className="submit-button">
-        <button onClick={handleSubmit}>Submit</button>
+        <button onClick={handleSubmit}>Entregar</button>
       </div>
       {isCorrect !== null && (
         <div className={`result ${isCorrect ? 'correct' : 'incorrect'}`}>
           {isCorrect ? (
-            'Correct!'
+            'Correcto!     (volveras en 5 segundos)'
           ) : (
             <>
-              Incorrect. The correct answer is approximately {correctAnswer.toFixed(2)}.
+              Incorrecto. Puedes volver a intentar.
               {tipCount < allTips.length && (
                 <div className="tip-section">
-                  <button onClick={handleGetTip} className="tip-button">Need a Tip?</button>
+                  <button onClick={handleGetTip} className="tip-button">Necesitas una pista?</button>
                 </div>
               )}
             </>
           )}
         </div>
       )}
-      <div className="tips-container">
-        {tips.map((tip, index) => (
-          <p key={index} className="tip">{tip}</p>
-        ))}
-      </div>
+      {tips.length > 0 && (
+        <div className="tips-container show">
+          {tips.map((tip, index) => (
+            <p key={index} className="Pista">{tip}</p>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
