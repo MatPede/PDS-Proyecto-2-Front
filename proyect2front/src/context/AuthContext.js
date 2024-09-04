@@ -1,17 +1,15 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLogged, setIsLogged] = useState(false);
-  const navigate = useNavigate();
+  const [isLogged, setIsLogged] = useState(() => {
+    const savedIsLogged = localStorage.getItem('isLogged');
+    return savedIsLogged ? JSON.parse(savedIsLogged) : false;
+  });
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLogged(!!token);
-  }, []);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isLogged) {

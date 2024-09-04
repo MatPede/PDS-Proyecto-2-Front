@@ -51,7 +51,7 @@ const LoginPage = () => {
       localStorage.setItem('user', JSON.stringify(result.user));
       setIsLogged(true);
       localStorage.setItem('isLogged', 'true');
-      navigate('/');
+      navigate('/HomePage');
     } catch (error) {
       setError('Error al iniciar sesión.');
       console.error('Error de inicio de sesión:', error);

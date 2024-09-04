@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
@@ -7,12 +6,17 @@ import StudentPage from './pages/StudentPage';
 import TopBar from './components/TopBar';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import DashboardPage from './pages/DashboardPage';
-import AlternativasPage from './pages/Tasks/AlternativasPage'
-import CalculoPage from './pages/Tasks/CalculoPage'
-import ForceDiagram from './pages/Tasks/ForceDiagram'
+import AlternativasPage from './pages/Tasks/AlternativasPage';
+import CalculoPage from './pages/Tasks/CalculoPage';
+import ForceDiagram from './pages/Tasks/ForceDiagram';
 
 const AppRoutes = () => {
   const { isLogged } = useAuth();
+
+  // Log de isLogged cada vez que se monta el componente o cambia la ruta
+  useEffect(() => {
+    console.log("isLogged =", isLogged);
+  }, [isLogged]);
 
   return (
     <>
@@ -24,12 +28,8 @@ const AppRoutes = () => {
             element={!isLogged ? <LoginPage /> : <Navigate to="/HomePage" />}
           />
           <Route
-            path="/"
+            path="/HomePage"
             element={isLogged ? <HomePage /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/dashboard"
-            element={isLogged ? <DashboardPage /> : <Navigate to="/login" />}
           />
           <Route
             path="/dashboard"

@@ -13,7 +13,7 @@ const TopBar = () => {
   };
 
   const handleHome = () => {
-    navigate('/'); 
+    navigate('/HomePage'); 
   };
 
   //const user = JSON.parse(localStorage.getItem('user'));
