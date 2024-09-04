@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./AlternativasPage.css";
 
 import MathComponent from '../../components/MathComponent';
+//cantidad de preguntas que vas a contestar, el tiempo total del test desde que lo empece, tiempo total desde que ingresaste a la materia
+
 
 const questionsData = [{
     id: 1,
