@@ -9,10 +9,10 @@ const DashboardPage = () => {
         <h1>Rozamiento y Poleas</h1>
         <p className="tasks-title">Tareas:</p>
         <div className="button-group">
-          <Link to="/test-alternativas" className="btn">
+          <Link to="/alternativas" className="btn">
             Test de Alternativas
           </Link>
-          <Link to="/test-desarrollo" className="btn">
+          <Link to="/calculo" className="btn">
             Test de Desarrollo
           </Link>
         </div>
