@@ -85,7 +85,7 @@ const CalculoPage = () => {
       <input 
         type="number" 
         className="answer-box" 
-        placeholder="Ingresa tu respuesta" 
+        placeholder="Ingresa tu respuesta [N]" 
         value={userAnswer}
         onChange={(e) => setUserAnswer(e.target.value)}
       />
