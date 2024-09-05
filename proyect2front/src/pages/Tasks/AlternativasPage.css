@@ -55,8 +55,8 @@
 }
 
 .alternativas-page .answer-options button.selected {
-    background-color: #d1e7dd;
-    border-color: #a3c9a8;
+    background-color: #8bc7ac;
+    border-color: #398143;
 }
 
 .alternativas-page .option-label {
@@ -95,3 +95,12 @@
     background-color: #c6c6c6;
     cursor: not-allowed;
 }
+ 
+
+.option-button.incorrect {
+    background-color: red;
+    color: rgb(241, 15, 15);
+    cursor: not-allowed;
+  }
+
+  
