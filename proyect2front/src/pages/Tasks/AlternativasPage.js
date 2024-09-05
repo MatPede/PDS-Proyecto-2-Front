@@ -53,7 +53,6 @@ const questionsData = [{
     ]
   }
 ];
-
 const selectRandomQuestions = (questions) => {
     const numQuestions = Math.floor(Math.random() * 3) + 3;
     return questions.slice(0, numQuestions);
@@ -68,6 +67,7 @@ const AlternativasPage = () => {
     const [score, setScore] = useState(0);
     const [time, setTime] = useState(0);
     const [incorrectQuestionsFirstRound, setIncorrectQuestionsFirstRound] = useState([]);
+    const [incorrectQuestionsSecondRound, setIncorrectQuestionsSecondRound] = useState([]);
     const [secondChance, setSecondChance] = useState(false);
     const [showRoundSummary, setShowRoundSummary] = useState(false);
     const [finalTime, setFinalTime] = useState(null);
@@ -124,6 +124,14 @@ const AlternativasPage = () => {
                     selectedOption: incorrectOption
                 }
             ]);
+        } else if (secondChance && !allCorrect) {
+            setIncorrectQuestionsSecondRound(prev => [
+                ...prev,
+                {
+                    question: currentQuestion,
+                    selectedOption: incorrectOption
+                }
+            ]);
         }
 
         setSelectedOptions([]);
@@ -166,39 +174,33 @@ const AlternativasPage = () => {
               </div>
             ) : quizCompleted ? (
               <div className="quiz-summary-wrapper">
-                           <h2>Quiz Completado</h2>
-                  <p>Tiempo total: {formatTime(finalTime)}</p>
-                  <p>Correctas: {questions.length - incorrectQuestionsFirstRound.length} / Incorrectas: {incorrectQuestionsFirstRound.length}</p>
+                <h2>Quiz Completado</h2>
+                <p>Tiempo total: {formatTime(finalTime)}</p>
+                <p>Correctas: {questions.length - incorrectQuestionsSecondRound.length} / Incorrectas: {incorrectQuestionsSecondRound.length}</p>
                 <div className="quiz-summary-container">
-       
-      
-                {incorrectQuestionsFirstRound.length > 0 && (
-  <div className="incorrect-questions-summary">
-    <h3>Alternativas correctas del segundo round:</h3>
-    {incorrectQuestionsFirstRound.map((item, index) => (
-      <div key={index} className="incorrect-question">
-        <p>{item.question.text}</p>
-        <ul className="answer-options">
-          {item.question.options
-            .filter(option => option.isCorrect) // Filtrar solo opciones correctas
-            .map((option, idx) => (
-              <li key={idx}>
-                <button
-                  className="option-button correct-option"
-                  disabled
-                >
-                  {optionLabels[idx]} {option.text}
-                </button>
-              </li>
-            ))}
-        </ul>
-      </div>
-    ))}
-  </div>
-)}
-
+                  {incorrectQuestionsSecondRound.length > 0 && (
+                    <div className="incorrect-questions-summary">
+                      <h3>Alternativas incorrectas del segundo round:</h3>
+                      {incorrectQuestionsSecondRound.map((item, index) => (
+                        <div key={index} className="incorrect-question">
+                          <p>{item.question.text}</p>
+                          <ul className="answer-options">
+                            {item.question.options.map((option, idx) => (
+                              <li key={idx}>
+                                <button
+                                  className={`option-button ${option.isCorrect ? 'correct-option' : 'incorrect-option'}`}
+                                  disabled
+                                >
+                                  {optionLabels[idx]} {option.text}
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-      
                 {/* Contenedor separado para el botón */}
                 <div className="navigation-buttons-container">
                   <button onClick={() => navigate('/dashboard')} className="finish-button">Volver al inicio</button>
@@ -247,7 +249,6 @@ const AlternativasPage = () => {
           </div>
         </div>
       );
-      
 };
 
 const shuffleArray = (array) => {
