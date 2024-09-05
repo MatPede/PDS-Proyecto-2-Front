@@ -22,6 +22,8 @@ const AppRoutes = () => {
       {isLogged && <TopBar />}
       <div style={{ paddingTop: isLogged ? '47px' : '0px' }}> 
         <Routes>
+        <Route path="/" element={<Navigate to={isLogged ? "/HomePage" : "/login"} />} />
+
           <Route
             path="/login"
             element={!isLogged ? <LoginPage /> : <Navigate to="/HomePage" />}
