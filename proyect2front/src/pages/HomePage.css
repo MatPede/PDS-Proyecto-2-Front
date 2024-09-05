@@ -38,4 +38,29 @@
     margin: 5px 0 0 0;
     font-size: 14px;
 }
+
+.home-image {
+    width: 100px;  
+    height: auto; 
+    max-width: 30%;  
+    display: block;  
+    margin: 0 auto;  
+}
+
+.reloj-image {
+    width: 60px;  /* Ajusta el tamaño de la imagen */
+    height: auto;  /* Mantiene la proporción de la imagen */
+    animation: rotate 2s linear infinite;  /* Aplica la animación de rotación */
+    display: block;
+    margin: 0 auto;
+}
   
+  /* Definir la animación de rotación */
+@keyframes rotate {
+    from {
+      transform: rotate(0deg);  /* Comienza en 0 grados */
+    }
+    to {
+      transform: rotate(360deg);  /* Rota hasta 360 grados */
+    }
+}
