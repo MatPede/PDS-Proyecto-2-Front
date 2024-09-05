@@ -71,6 +71,8 @@ const AlternativasPage = () => {
     const [secondChance, setSecondChance] = useState(false);
     const [showRoundSummary, setShowRoundSummary] = useState(false);
     const [finalTime, setFinalTime] = useState(null);
+    const [quizCompleted, setQuizCompleted] = useState(false);
+    const [waitTime, setWaitTime] = useState(5); // Tiempo de espera en segundos
 
     const navigate = useNavigate();
     const currentQuestions = secondChance ? incorrectQuestionsFirstRound.map(q => q.question) : questions;
@@ -83,6 +85,19 @@ const AlternativasPage = () => {
         const timer = setInterval(() => setTime(prevTime => prevTime + 1), 1000);
         return () => clearInterval(timer);
     }, []);
+
+    // Temporizador para el tiempo de espera
+    useEffect(() => {
+        if (showRoundSummary && waitTime > 0) {
+            const waitTimer = setInterval(() => setWaitTime(prevWaitTime => prevWaitTime - 1), 1000);
+            return () => clearInterval(waitTimer);
+        } else if (showRoundSummary && waitTime === 0) {
+            setShowRoundSummary(false);
+            setQuestions(incorrectQuestionsFirstRound.map(q => q.question)); // Actualiza las preguntas para el segundo round
+            setCurrentQuestionIndex(0);
+            setSecondChance(true);
+        }
+    }, [showRoundSummary, waitTime]);
 
     // Manejo de clic en opciones
     const handleOptionClick = (option) => setSelectedOptions([option]);
@@ -121,15 +136,9 @@ const AlternativasPage = () => {
 
             if (!secondChance && incorrectQuestionsFirstRound.length > 0) {
                 setShowRoundSummary(true);
-                setTimeout(() => {
-                    setShowRoundSummary(false);
-                    setQuestions(incorrectQuestionsFirstRound.map(q => q.question)); // Actualiza las preguntas para el segundo round
-                    setCurrentQuestionIndex(0);
-                    setSecondChance(true);
-                }, 3000);
+                setWaitTime(5); // Reiniciar el tiempo de espera
             } else {
-                alert(`¡Quiz completado! Tu puntuación final es: ${score}`);
-                setTimeout(() => navigate('/dashboard'), 1000);
+                setQuizCompleted(true);
             }
         }
     };
@@ -147,56 +156,95 @@ const AlternativasPage = () => {
 
     return (
         <div className="alternativas-page">
-            <div className="question-container">
-                {showRoundSummary ? (
-                    <div className="round-summary-container">
-                        <h2>Primer Round Completo</h2>
-                        <p>Obtuviste {score} correctas de {questions.length} preguntas.</p>
-                        <p>Tiempo de respuesta: {formatTime(finalTime)}</p>
-                    </div>
-                ) : (
-                    <>
-                        <h2>{`Pregunta ${currentQuestionIndex + 1} de ${currentQuestions.length}`}</h2>
-                        <div className="timer">{formatTime(time)}</div>
-                        <div className="question-text">{currentQuestion.text}</div>
-                        <ul className="answer-options">
-                            {currentQuestion.options.map((option, index) => {
-                                const isSelected = selectedOptions.includes(option);
-                                const isIncorrect = secondChance && currentIncorrectOption === option;
-                                return (
-                                    <li key={index}>
-                                        <button
-                                            onClick={() => handleOptionClick(option)}
-                                            className={`option-button ${isSelected ? 'selected' : ''} ${isIncorrect ? 'incorrect' : ''}`}
-                                            disabled={secondChance && isIncorrect}
-                                        >
-                                            {optionLabels[index]} {option.text}
-                                        </button>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                        {feedback && <div className="feedback">{feedback}</div>}
-                        {secondChance && currentFeedback && (
-                            <div className="incorrect-feedback">
-                                <strong>Retroalimentación: </strong> {currentFeedback}
-                            </div>
-                        )}
-                        <div className="buttons">
-                            <button onClick={handleSkip} className="skip-button">Omitir</button>
-                            <button 
-                                onClick={handleNext} 
-                                className={`next-button ${selectedOptions.length !== 1 ? 'disabled' : ''}`}
-                                disabled={selectedOptions.length !== 1}
-                            >
-                                Siguiente
-                            </button>
+          <div className="question-container">
+            {showRoundSummary ? (
+              <div className="round-summary-container">
+                <h2>Primer Round Completo</h2>
+                <p>Obtuviste {score} correctas de {questions.length} preguntas.</p>
+                <p>Tiempo de respuesta: {formatTime(finalTime)}</p>
+                <p>Pasando al siguiente round en {waitTime} segundos...</p>
+              </div>
+            ) : quizCompleted ? (
+              <div className="quiz-summary-wrapper">
+                           <h2>Quiz Completado</h2>
+                  <p>Tiempo total: {formatTime(finalTime)}</p>
+                  <p>Correctas: {questions.length - incorrectQuestionsFirstRound.length} / Incorrectas: {incorrectQuestionsFirstRound.length}</p>
+                <div className="quiz-summary-container">
+       
+      
+                  {incorrectQuestionsFirstRound.length > 0 && (
+                    <div className="incorrect-questions-summary">
+                      <h3>Alternativas correctas del segundo round:</h3>
+                      {incorrectQuestionsFirstRound.map((item, index) => (
+                        <div key={index} className="incorrect-question">
+                          <p>{item.question.text}</p>
+                          <ul className="answer-options">
+                            {item.question.options.map((option, idx) => (
+                              <li key={idx}>
+                                <button
+                                  className={`option-button ${option.isCorrect ? 'correct-option' : ''}`}
+                                  disabled
+                                >
+                                  {optionLabels[idx]} {option.text}
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                    </>
+                      ))}
+                    </div>
+                  )}
+                </div>
+      
+                {/* Contenedor separado para el botón */}
+                <div className="navigation-buttons-container">
+                  <button onClick={() => navigate('/dashboard')} className="finish-button">Volver al inicio</button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <h2>{`Pregunta ${currentQuestionIndex + 1} de ${currentQuestions.length}`}</h2>
+                <div className="timer">{formatTime(time)}</div>
+                <div className="question-text">{currentQuestion.text}</div>
+                <ul className="answer-options">
+                  {currentQuestion.options.map((option, index) => {
+                    const isSelected = selectedOptions.includes(option);
+                    const isIncorrect = secondChance && currentIncorrectOption === option;
+                    return (
+                      <li key={index}>
+                        <button
+                          onClick={() => handleOptionClick(option)}
+                          className={`option-button ${isSelected ? 'selected' : ''} ${isIncorrect ? 'incorrect' : ''}`}
+                          disabled={secondChance && isIncorrect}
+                        >
+                          {optionLabels[index]} {option.text}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+                {feedback && <div className="feedback">{feedback}</div>}
+                {secondChance && currentFeedback && (
+                  <div className="incorrect-feedback">
+                    <strong>Retroalimentación: </strong> {currentFeedback}
+                  </div>
                 )}
-            </div>
+                <div className="buttons">
+                  <button onClick={handleSkip} className="skip-button">Omitir</button>
+                  <button 
+                    onClick={handleNext} 
+                    className={`next-button ${selectedOptions.length !== 1 ? 'disabled' : ''}`}
+                    disabled={selectedOptions.length !== 1}
+                  >
+                    Siguiente
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
-    );
+      );
+      
 };
 
 const shuffleArray = (array) => {
