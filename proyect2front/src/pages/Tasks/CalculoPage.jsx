@@ -15,13 +15,13 @@ const CalculoPage = () => {
   const [tipCount, setTipCount] = useState(0);
   const [tips, setTips] = useState([]);
   const [shake, setShake] = useState(false);  // Estado para manejar el temblor
+  const [timer, setTimer] = useState(5); 
 
   // Calculate the correct answer
   const correctAnswer = P * 10 * mu;
 
   // Define the margin of error
   const marginOfError = 0.5;
-
   // Tips array
   const allTips = [
     "Tip 1: Recuerda que la fuerza de fricción se calcula multiplicando el peso por el coeficiente de fricción.",
@@ -55,11 +55,18 @@ const CalculoPage = () => {
 
   useEffect(() => {
     if (isCorrect) {
-      const timer = setTimeout(() => {
-        navigate('/dashboard');
-      }, 5000);
+      const interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000); // Actualiza cada segundo
 
-      return () => clearTimeout(timer);  // Cleanup timer if component unmounts or isCorrect changes
+      const timeout = setTimeout(() => {
+        navigate('/dashboard');
+      }, 5000);  // Navega después de 5 segundos
+
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timeout);
+      };  // Limpia el temporizador al desmontar
     }
   }, [isCorrect, navigate]);
 
@@ -97,7 +104,7 @@ const CalculoPage = () => {
           {isCorrect !== null && (
             <div className={`result ${isCorrect ? 'correct' : `incorrect ${shake ? 'shake' : ''}`}`}>
               {isCorrect ? (
-                'Correcto!     (volveras en 5 segundos)'
+                `Correcto! Volverás en ${timer} segundos`
               ) : (
                 <>
                   Incorrecto. Puedes volver a intentar.
