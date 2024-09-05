@@ -64,57 +64,61 @@ const CalculoPage = () => {
   }, [isCorrect, navigate]);
 
   return (
-    <div className="quiz-container">
-      <div className="exit-button">
-        <button onClick={handleSkip}>Omitir</button>
-      </div>
-      <h1 className="question-title">Pregunta de calculo numerico</h1>
-      <div className="question-content">
-        <p className="question-text">
-          Dado el siguiente diagrama, donde F es una fuerza aplicada sobre el objeto de masa M, 
-          P es el peso del objeto y mu el coeficiente de fricción entre el objeto y el suelo.
-        </p>
-        {/* Replace the static image with the dynamic diagram */}
-        <div className="question-diagram">
-          <ForceDiagram F={correctAnswer} P={P} mu={mu} />
+    <div className="calculo-page">
+      <div className="quiz-container">
+        <div className="exit-button">
+          <button onClick={handleSkip}>Omitir</button>
         </div>
-        <p className="question-more-text">
-          Sabiendo que la Masa del objeto es de {P} Kg y mu = {mu} calcule la fuerza necesaria para vencer la fricción estática. (Considere g = 10)
-        </p>
-      </div>
-      <input 
-        type="number" 
-        className="answer-box" 
-        placeholder="Ingresa tu respuesta [N]" 
-        value={userAnswer}
-        onChange={(e) => setUserAnswer(e.target.value)}
-      />
-      <div className="submit-button">
-        <button onClick={handleSubmit}>Entregar</button>
-      </div>
-      {isCorrect !== null && (
-        <div className={`result ${isCorrect ? 'correct' : `incorrect ${shake ? 'shake' : ''}`}`}>
-          {isCorrect ? (
-            'Correcto!     (volveras en 5 segundos)'
-          ) : (
-            <>
-              Incorrecto. Puedes volver a intentar.
-              {tipCount < allTips.length && (
-                <div className="tip-section">
-                  <button onClick={handleGetTip} className="tip-button">Necesitas una pista?</button>
-                </div>
+        <h1 className="question-title">Pregunta de calculo numerico</h1>
+        <div className="scrollable-content">
+          <div className="question-content">
+            <p className="question-text">
+              Dado el siguiente diagrama, donde F es una fuerza aplicada sobre el objeto de masa M, 
+              P es el peso del objeto y mu el coeficiente de fricción entre el objeto y el suelo.
+            </p>
+            {/* Replace the static image with the dynamic diagram */}
+            <div className="question-diagram">
+              <ForceDiagram F={correctAnswer} P={P} mu={mu} />
+            </div>
+            <p className="question-more-text">
+              Sabiendo que la Masa del objeto es de {P} Kg y mu = {mu} calcule la fuerza necesaria para vencer la fricción estática. (Considere g = 10)
+            </p>
+          </div>
+          <input 
+            type="number" 
+            className="answer-box" 
+            placeholder="Ingresa tu respuesta [N], agregar el décimal con punto (.)" 
+            value={userAnswer}
+            onChange={(e) => setUserAnswer(e.target.value)}
+          />
+          <div className="submit-button">
+            <button onClick={handleSubmit}>Entregar</button>
+          </div>
+          {isCorrect !== null && (
+            <div className={`result ${isCorrect ? 'correct' : `incorrect ${shake ? 'shake' : ''}`}`}>
+              {isCorrect ? (
+                'Correcto!     (volveras en 5 segundos)'
+              ) : (
+                <>
+                  Incorrecto. Puedes volver a intentar.
+                  {tipCount < allTips.length && (
+                    <div className="tip-section">
+                      <button onClick={handleGetTip} className="tip-button">Necesitas una pista?</button>
+                    </div>
+                  )}
+                </>
               )}
-            </>
+            </div>
+          )}
+          {tips.length > 0 && (
+            <div className="tips-container show">
+              {tips.map((tip, index) => (
+                <p key={index} className="Pista">{tip}</p>
+              ))}
+            </div>
           )}
         </div>
-      )}
-      {tips.length > 0 && (
-        <div className="tips-container show">
-          {tips.map((tip, index) => (
-            <p key={index} className="Pista">{tip}</p>
-          ))}
-        </div>
-      )}
+      </div>
     </div>
   );
 };

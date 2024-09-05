@@ -1,10 +1,26 @@
+.calculo-page {
+    background: linear-gradient(to right, #8e44ad, #3498db); /* Gradiente de fondo */
+    color: #fff; /* Texto blanco para buen contraste */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
 .quiz-container {
-    margin: 5% 20%;
+    background: #fff; /* Fondo blanco para buen contraste */
+    color: #333; /* Color de texto oscuro */
+    margin: 0% 10%;
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-rows: auto auto auto auto 1fr auto auto;
-    gap: 20px;
-    height: 60vh;
+    gap: 0px;
+    height: 80vh; /* Aumenta la altura para ocupar más pantalla */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destacar el contenedor */
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .question-title {
@@ -196,6 +212,7 @@
 
     .tips-container {
         max-width: 100%;
+        
     }
 }
 
@@ -234,4 +251,13 @@
     .tips-container {
         max-width: 100%;
     }
+}
+
+.scrollable-content {
+    max-height: calc(100vh - 200px); /* Ajusta la altura máxima para que no ocupe más allá del final de la pantalla */
+    overflow-y: auto; /* Permite el desplazamiento vertical */
+    padding: 30px;
+    box-sizing: border-box;
+    background: #fff; /* Fondo blanco para buen contraste */
+    border-radius: 8px;
 }
