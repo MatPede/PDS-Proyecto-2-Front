@@ -14,12 +14,13 @@ const CalculoPage = () => {
   const [isCorrect, setIsCorrect] = useState(null);
   const [tipCount, setTipCount] = useState(0);
   const [tips, setTips] = useState([]);
+  const [shake, setShake] = useState(false);  // Estado para manejar el temblor
 
   // Calculate the correct answer
   const correctAnswer = P * 10 * mu;
 
   // Define the margin of error
-  const marginOfError = 1;
+  const marginOfError = 0.5;
 
   // Tips array
   const allTips = [
@@ -35,6 +36,8 @@ const CalculoPage = () => {
       setIsCorrect(true);
     } else {
       setIsCorrect(false);
+      setShake(true);  // Activar temblor
+      setTimeout(() => setShake(false), 1000);  // Desactivar después de 2 segundos
     }
   };
 
@@ -90,7 +93,7 @@ const CalculoPage = () => {
         <button onClick={handleSubmit}>Entregar</button>
       </div>
       {isCorrect !== null && (
-        <div className={`result ${isCorrect ? 'correct' : 'incorrect'}`}>
+        <div className={`result ${isCorrect ? 'correct' : `incorrect ${shake ? 'shake' : ''}`}`}>
           {isCorrect ? (
             'Correcto!     (volveras en 5 segundos)'
           ) : (
