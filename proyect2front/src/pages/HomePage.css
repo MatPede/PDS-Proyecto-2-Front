@@ -1,14 +1,19 @@
 .homepage-container {
+    background: linear-gradient(to right, #8e44ad, #3498db);
+    min-height: 100vh;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 20px; /* Ajusta la distancia entre los cuadros */
-    margin-top: 20px;
+    color: white;
+    padding: 10px;
+    gap: 30px;
 }
-  
-.card {
-    width: 200px;
-    height: 150px;
-    background-color: #007bff; /* Color azul */
+
+.homepage-container .card {
+    width: 250px;
+    height: 200px;
+    font-size: 20px;
+    background-color: #007bff;
     color: white;
     border-radius: 8px;
     display: flex;
@@ -19,48 +24,47 @@
     cursor: pointer;
     transition: transform 0.3s ease;
 }
-  
-.card:hover {
+
+.homepage-container .card:hover {
     transform: translateY(-5px);
 }
-  
-.card-upcoming {
-    background-color: #ff4081; /* Color rosado */
+
+.homepage-container .card-upcoming {
+    background-color: #ff4081;
     cursor: not-allowed;
 }
-  
-.card-content h2 {
+
+.homepage-container .card-content h2 {
     margin: 0;
     font-size: 18px;
 }
-  
-.card-content p {
+
+.homepage-container .card-content p {
     margin: 5px 0 0 0;
     font-size: 14px;
 }
 
-.home-image {
-    width: 100px;  
-    height: auto; 
-    max-width: 30%;  
-    display: block;  
-    margin: 0 auto;  
-}
-
-.reloj-image {
-    width: 60px;  /* Ajusta el tamaño de la imagen */
-    height: auto;  /* Mantiene la proporción de la imagen */
-    animation: rotate 2s linear infinite;  /* Aplica la animación de rotación */
+.homepage-container .home-image {
+    width: 100px;
+    height: auto;
+    max-width: 30%;
     display: block;
     margin: 0 auto;
 }
-  
-  /* Definir la animación de rotación */
+
+.homepage-container .reloj-image {
+    width: 60px;
+    height: auto;
+    animation: rotate 2s linear infinite;
+    display: block;
+    margin: 0 auto;
+}
+
 @keyframes rotate {
     from {
-      transform: rotate(0deg);  /* Comienza en 0 grados */
+        transform: rotate(0deg);
     }
     to {
-      transform: rotate(360deg);  /* Rota hasta 360 grados */
+        transform: rotate(360deg);
     }
 }

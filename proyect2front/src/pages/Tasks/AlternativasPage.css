@@ -1,24 +1,37 @@
-.alternativas-page .question-container {
-    background: #f5f5f5;
-    border: 1px solid #ccc;
+.alternativas-page {
+    background: linear-gradient(to right, #8e44ad, #3498db); /* Gradiente de fondo */
+    color: #fff; /* Texto blanco para buen contraste */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.alternativas-page .question-container,
+.round-summary-container,
+.quiz-summary-container {
+    background: #f5f5f5; /* Fondo claro para los contenedores */
+    border: 1px solid #ccc; /* Borde gris claro */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
+    max-width: 600px; /* Ancho máximo uniforme */
+    width: 100%; /* Asegura que el ancho se ajuste */
     margin: 20px auto;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
+    color: #333; /* Texto oscuro para buena legibilidad */
 }
 
-.alternativas-page .question-text {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    line-height: 1.5;
+.alternativas-page .question-text,
+.alternativas-page .feedback,
+.alternativas-page .incorrect-feedback {
+    color: #333; /* Texto oscuro para buena legibilidad */
 }
 
 .alternativas-page .timer {
     font-size: 14px;
-    color: #555;
+    color: #555; /* Texto más oscuro para mejor legibilidad */
     margin-bottom: 10px;
 }
 
@@ -34,65 +47,56 @@
     margin-bottom: 10px;
 }
 
-.alternativas-page .answer-options button {
-    background: #ffffff;
-    border: 1px solid #ccc;
+.alternativas-page .answer-options button,
+.option-button {
+    background: #ffffff; /* Fondo blanco */
+    border: 1px solid #ccc; /* Borde gris claro */
     border-radius: 4px;
     padding: 10px 20px;
-    margin: 5px;
+    margin: 5px 0; /* Margen uniforme */
     font-size: 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 100%; /* Botones ocupan todo el ancho */
     box-sizing: border-box;
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    color: #333; /* Texto oscuro */
 }
 
 .alternativas-page .answer-options button:hover {
-    background-color: #f0f0f0;
-    border-color: #bbb;
+    background-color: #f0f0f0; /* Fondo gris claro en hover */
+    border-color: #bbb; /* Borde gris más claro en hover */
 }
 
 .alternativas-page .answer-options button.selected {
-    background-color: #8bc7ac;
-    border-color: #398143;
-}
-
-.option-button {
-    display: block;
-    margin: 5px 0;
-    padding: 8px;
-    width: 100%;
-    text-align: left;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+    background-color: #8bc7ac; /* Fondo verde claro para selección */
+    border-color: #398143; /* Borde verde más oscuro */
 }
 
 .option-button.correct-option {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #07dd0e;
+    background-color: #d4edda; /* Fondo verde claro */
+    border-color: #c3e6cb; /* Borde verde más oscuro */
+    color: #155724; /* Texto verde oscuro */
 }
 
 .option-button.incorrect {
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    color: #d9534f;
+    background-color: #f8d7da; /* Fondo rojo claro */
+    border-color: #f5c6cb; /* Borde rojo más oscuro */
+    color: #721c24; /* Texto rojo oscuro */
 }
 
 .alternativas-page .feedback {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 20px;
-    color: #d9534f;
+    color: #d9534f; /* Color rojo oscuro para feedback */
 }
 
 .alternativas-page .incorrect-feedback {
     font-size: 14px;
-    color: #d9534f;
+    color: #d9534f; /* Color rojo oscuro para feedback incorrecto */
+    margin-bottom: 10px;
 }
 
 .alternativas-page .buttons {
@@ -102,8 +106,9 @@
 
 .alternativas-page .submit-button, 
 .alternativas-page .next-button, 
-.alternativas-page .skip-button {
-    background: #007bff;
+.alternativas-page .skip-button,
+.finish-button {
+    background: #8000ff; /* Color azul claro */
     color: white;
     border: none;
     border-radius: 4px;
@@ -115,8 +120,9 @@
 
 .alternativas-page .submit-button:hover, 
 .alternativas-page .next-button:hover, 
-.alternativas-page .skip-button:hover {
-    background-color: #0056b3;
+.alternativas-page .skip-button:hover,
+.finish-button:hover {
+    background-color: #a100b3; /* Azul más oscuro en hover */
 }
 
 .alternativas-page .next-button:disabled {
@@ -129,7 +135,7 @@
     margin-top: 20px;
     padding: 10px 20px;
     border: none;
-    background-color: #007bff;
+    background-color: #5f3b71; /* Azul claro */
     color: white;
     border-radius: 5px;
     cursor: pointer;
@@ -138,7 +144,7 @@
 
 .finish-button:hover, 
 .next-button:hover {
-    background-color: #0056b3;
+    background-color: #3300b3; /* Azul más oscuro en hover */
 }
 
 .round-summary-container, 
@@ -147,9 +153,9 @@
     overflow-y: auto;
     padding: 10px;
     margin: 20px auto;
-    border: 1px solid #ccc;
+    border: 1px solid #ccc; /* Borde gris claro */
     border-radius: 8px;
-    background-color: #f9f9f9;
+    background-color: #f5f5f5; /* Fondo claro */
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -169,15 +175,12 @@
         font-size: 16px;
     }
 
-    .alternativas-page .answer-options button {
-        padding: 8px 15px;
-        font-size: 14px;
-    }
-
+    .alternativas-page .answer-options button,
     .finish-button, 
     .next-button {
         padding: 8px 15px;
         font-size: 14px;
+        
     }
 }
 
@@ -191,11 +194,7 @@
         font-size: 14px;
     }
 
-    .alternativas-page .answer-options button {
-        padding: 6px 10px;
-        font-size: 12px;
-    }
-
+    .alternativas-page .answer-options button,
     .finish-button, 
     .next-button {
         padding: 6px 10px;
@@ -214,3 +213,18 @@
         margin-bottom: 10px;
     }
 }
+.alternativas-page .option-button.correct-option {
+  background-color: #d4edda; /* Verde claro para opciones correctas */
+  color: #155724; /* Texto verde oscuro */
+}
+
+.alternativas-page .option-button.incorrect {
+  background-color: #f8d7da; /* Rojo claro para opciones incorrectas */
+  color: #721c24; /* Texto rojo oscuro */
+}
+
+.alternativas-page .option-button.selected {
+  border: 2px solid #45698f; /* Color de borde azul para opciones seleccionadas */
+}
+
+

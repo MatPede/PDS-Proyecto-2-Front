@@ -8,9 +8,9 @@ const questionsData = [{
     text: "¿Cuál es la fórmula para calcular la fuerza de fricción estática máxima entre dos superficies?",
     options: [
       { text: <MathComponent formula="F_{fr} = \mu_k \cdot N" />, isCorrect: false, explanation: "Esta fórmula es para la fricción cinética, no estática." },
-      { text: <MathComponent formula="F_{fr} = \mu_s \cdot N" />, isCorrect: true, explanation: "Correcto. La fórmula para la fricción estática máxima es el coeficiente de fricción estática (\u03BC_s) multiplicado por la fuerza normal (N)." },
+      { text: <MathComponent formula="F_{fr} = \mu_s \cdot N" />, isCorrect: true, explanation: "Correcto. La fórmula para la fricción estática máxima es el coeficiente de fricción estática multiplicado por la fuerza normal (N)." },
       { text: <MathComponent formula="F_{fr} = \mu_s \cdot g" />, isCorrect: false, explanation: "La fuerza de fricción estática se calcula usando la fuerza normal, no la gravedad." },
-      { text: <MathComponent formula="F_{fr} = \mu_k \cdot g" />, isCorrect: false, explanation: "Esta fórmula es incorrecta. La fricción cinética se calcula usando el coeficiente de fricción cinética (\u03BC_k), no el de fricción estática." }
+      { text: <MathComponent formula="F_{fr} = \mu_k \cdot g" />, isCorrect: false, explanation: "La fricción cinética se calcula usando el coeficiente de fricción cinética, no el de fricción estática." }
     ]
   }, {
     id: 2,
@@ -19,7 +19,7 @@ const questionsData = [{
       { text: "Disminuye", isCorrect: false, explanation: "La fuerza de fricción estática aumenta con la fuerza normal." },
       { text: "Permanece constante", isCorrect: false, explanation: "La fuerza de fricción estática es proporcional a la fuerza normal, por lo que no permanece constante." },
       { text: "Aumenta", isCorrect: true, explanation: "Correcto. La fuerza de fricción estática aumenta con el incremento de la fuerza normal." },
-      { text: "Se vuelve nula", isCorrect: false, explanation: "La fricción estática no se vuelve nula con el incremento de la fuerza normal; en realidad aumenta." }
+      { text: "Se vuelve nula", isCorrect: false, explanation: "La fricción estática no se vuelve nula con el incremento de la fuerza normal." }
     ]
   },
   {
@@ -28,8 +28,8 @@ const questionsData = [{
     options: [
       { text: "La fuerza de fricción aumenta", isCorrect: true, explanation: "Correcto. Un mayor coeficiente de fricción estática aumenta la fuerza de fricción estática." },
       { text: "La fuerza de fricción disminuye", isCorrect: false, explanation: "La fuerza de fricción aumenta con un mayor coeficiente de fricción estática." },
-      { text: "La fuerza de fricción permanece constante", isCorrect: false, explanation: "La fuerza de fricción no permanece constante; aumenta con un mayor coeficiente de fricción estática." },
-      { text: "La fuerza de fricción se vuelve negativa", isCorrect: false, explanation: "La fricción no puede ser negativa; aumenta con un mayor coeficiente de fricción estática." }
+      { text: "La fuerza de fricción permanece constante", isCorrect: false, explanation: "La fuerza de fricción no permanece constante." },
+      { text: "La fuerza de fricción se vuelve negativa", isCorrect: false, explanation: "La fricción no puede ser negativa." }
     ]
   },
   {
@@ -172,28 +172,31 @@ const AlternativasPage = () => {
                 <div className="quiz-summary-container">
        
       
-                  {incorrectQuestionsFirstRound.length > 0 && (
-                    <div className="incorrect-questions-summary">
-                      <h3>Alternativas correctas del segundo round:</h3>
-                      {incorrectQuestionsFirstRound.map((item, index) => (
-                        <div key={index} className="incorrect-question">
-                          <p>{item.question.text}</p>
-                          <ul className="answer-options">
-                            {item.question.options.map((option, idx) => (
-                              <li key={idx}>
-                                <button
-                                  className={`option-button ${option.isCorrect ? 'correct-option' : ''}`}
-                                  disabled
-                                >
-                                  {optionLabels[idx]} {option.text}
-                                </button>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                {incorrectQuestionsFirstRound.length > 0 && (
+  <div className="incorrect-questions-summary">
+    <h3>Alternativas correctas del segundo round:</h3>
+    {incorrectQuestionsFirstRound.map((item, index) => (
+      <div key={index} className="incorrect-question">
+        <p>{item.question.text}</p>
+        <ul className="answer-options">
+          {item.question.options
+            .filter(option => option.isCorrect) // Filtrar solo opciones correctas
+            .map((option, idx) => (
+              <li key={idx}>
+                <button
+                  className="option-button correct-option"
+                  disabled
+                >
+                  {optionLabels[idx]} {option.text}
+                </button>
+              </li>
+            ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+)}
+
                 </div>
       
                 {/* Contenedor separado para el botón */}

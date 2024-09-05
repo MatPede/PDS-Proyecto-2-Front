@@ -1,25 +1,24 @@
-/* DashboardPage.css */
-
 .dashboard-page {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(to right, #6a11cb, #2575fc);
+  background: linear-gradient(to right, #8e44ad, #3498db); /* Fondo con gradiente suave */
+  min-height: 100vh; /* Asegura que el fondo cubra toda la altura de la ventana */
   display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Cambiado de center a flex-start */
-  height: 100vh;
-  color: #fff;
-  padding-top: 50px; /* Añadido para mover el contenido hacia abajo */
+  align-items: center; /* Alinea los elementos en el centro verticalmente */
+  justify-content: center; /* Alinea los elementos en el centro horizontalmente */
+  color: white; /* Color del texto para buen contraste con el fondo */
+  padding: 20px; /* Añade un poco de espacio alrededor */
+  gap: 30px; /* Ajusta la distancia entre los cuadros */
+  flex-wrap: wrap; /* Permite que los elementos se ajusten en varias filas */
 }
 
 .dashboard-page .dashboard-page-container {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   text-align: center;
   max-width: 600px;
   width: 100%;
+  margin: 10px; /* Añade margen para separar los contenedores */
 }
 
 .dashboard-page .dashboard-page-container h1 {
@@ -40,10 +39,11 @@
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
+  flex-wrap: wrap; /* Permite que los botones se ajusten en varias filas */
 }
 
 .dashboard-page .btn {
-  background: #2575fc;
+  background: #3b4145; /* Color azul */
   color: #fff;
   padding: 10px 20px;
   border-radius: 5px;
@@ -52,8 +52,88 @@
   transition: background 0.3s;
   display: flex;
   align-items: center;
+  margin: 5px; /* Añade margen para separar los botones */
 }
 
 .dashboard-page .btn:hover {
-  background: #1a64d6;
+  background: #2980b9; /* Color azul oscuro en hover */
+}
+
+/* Estilo de las tarjetas */
+.dashboard-page .card {
+  width: 100%;
+  max-width: 250px;
+  height: 200px;
+  font-size: 20px; /* Tamaño del texto */
+  background-color: #007bff; /* Color azul */
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  margin: 10px; /* Añade margen para separar las tarjetas */
+}
+
+.dashboard-page .card:hover {
+  transform: scale(1.05); /* Efecto de zoom al pasar el ratón */
+}
+
+.dashboard-page .card-content h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.dashboard-page .card-content p {
+  margin: 5px 0 0 0;
+  font-size: 14px;
+}
+
+.dashboard-page .home-image {
+  width: 100px;  
+  height: auto; 
+  max-width: 30%;  
+  display: block;  
+  margin: 0 auto;  
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .dashboard-page {
+    flex-direction: column; /* Cambia la dirección del flex a columna en pantallas pequeñas */
+  }
+
+  .dashboard-page .dashboard-page-container {
+    max-width: 90%; /* Ajusta el ancho máximo del contenedor */
+  }
+
+  .dashboard-page .card {
+    max-width: 90%; /* Ajusta el ancho máximo de las tarjetas */
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-page .dashboard-page-container h1 {
+    font-size: 2em; /* Reduce el tamaño de la fuente del título */
+  }
+
+  .dashboard-page .btn {
+    font-size: 1em; /* Reduce el tamaño de la fuente de los botones */
+    padding: 8px 16px; /* Ajusta el padding de los botones */
+  }
+
+  .dashboard-page .card {
+    height: 150px; /* Reduce la altura de las tarjetas */
+  }
+
+  .dashboard-page .card-content h2 {
+    font-size: 16px; /* Reduce el tamaño de la fuente del título de las tarjetas */
+  }
+
+  .dashboard-page .card-content p {
+    font-size: 12px; /* Reduce el tamaño de la fuente del texto de las tarjetas */
+  }
 }
